@@ -58,7 +58,7 @@ const StarsAnimation = () => {
     return (
         <div
             ref={starsContainerRef}
-            className='absolute inset-0 bg-black overflow-hidden z-0'
+            className='absolute inset-0  bg-gradient-to-br from-black via-[#262726] to-[#605e5e] overflow-hidden z-0'
         >
 
         </div>

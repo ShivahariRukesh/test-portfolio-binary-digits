@@ -4,7 +4,7 @@ import React from 'react'
 const About = () => {
   return (
     <div>About
-      <div className='flex flex-col gap-y-50 px-3 '>
+      <div className='flex flex-col gap-y-50 px-3 py-14'>
 
         <div
           className="flex flex-col justify-center space-y-5 bg-no-repeat bg-center"
@@ -28,7 +28,7 @@ const About = () => {
         </div>
 
         {/* Namaste to Let's know more Section */}
-        <div className='flex flex-col ml-50'>
+        <div className='flex flex-col ml-50 gap-y-8'>
 
           <div className='text-5xl'>
             NAMASTE 🙏<br />
@@ -39,7 +39,7 @@ const About = () => {
             Tell about your intro and story
             <hr className='border-1 border-dotted w-1/2' />
             <hr className='border-1 border-dotted w-1/2' />
-            <div className='flex space-x-4  text-3xl'>
+            <div className='flex gap-x-4  text-3xl mt-10'>
               <span> Let's know more </span>
               <Image src='/images/arrow.svg' width={25} height={25} alt="Arrow icon in about us" />
             </div>
