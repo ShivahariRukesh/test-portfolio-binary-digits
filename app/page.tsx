@@ -6,15 +6,15 @@ import Projects from "./components/Projects";
 
 export default function Home() {
 
- 
-  return (
-<div className="">
-<Navbar/>
-<Hero/>
-<Projects/>
-<About/>
-<Contact/>
 
-</div>
+  return (
+    <div className="">
+      <Navbar />
+      <Hero />
+      <Projects />
+      <About />
+      <Contact />
+
+    </div>
   );
 }
