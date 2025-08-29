@@ -3,7 +3,7 @@ import React from 'react'
 
 const About = () => {
   return (
-    <div>About
+    <div>
       <div className='flex flex-col gap-y-50 px-3 py-14'>
 
         <div
@@ -32,7 +32,7 @@ const About = () => {
 
           <div className='text-5xl'>
             NAMASTE 🙏<br />
-            I'M JOHN DOE
+            I&apos;M JOHN DOE
           </div>
 
           <div className='flex flex-col ml-5 gap-y-3'>
@@ -40,7 +40,7 @@ const About = () => {
             <hr className='border-1 border-dotted w-1/2' />
             <hr className='border-1 border-dotted w-1/2' />
             <div className='flex gap-x-4  text-3xl mt-10'>
-              <span> Let's know more </span>
+              <span> Let&apos;s know more </span>
               <Image src='/images/arrow.svg' width={25} height={25} alt="Arrow icon in about us" />
             </div>
           </div>

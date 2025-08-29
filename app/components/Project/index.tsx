@@ -8,9 +8,9 @@ import ProjectCard from './ProjectCard'
 gsap.registerPlugin(ScrollTrigger)
 
 const Projects = () => {
-
   const sectionRef = useRef<HTMLDivElement>(null)
   const { projects, loading } = useProjects()
+  console.log("first", projects)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -96,7 +96,7 @@ const Projects = () => {
 
 
             <div className="project-card bg-dark-secondary rounded-lg p-8 flex flex-col justify-center items-center text-center min-h-[400px]">
-              <h3 className="text-xl font-semibold mb-4">Couldn't find what you need?</h3>
+              <h3 className="text-xl font-semibold mb-4">Couldn&apos;t find what you need?</h3>
 
               <button className="bg-gradient-to-br from-[#222222] via-[#DFA7A5] to-[#AD7C6F] text-white px-6 py-3 rounded transition-colors">
                 Request Now →

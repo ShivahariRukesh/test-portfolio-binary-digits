@@ -10,6 +10,7 @@ const StarsAnimation = () => {
 
     useEffect(() => {
 
+        const starsRefVariable = starsContainerRef.current
         if (!starsContainerRef.current) return;
 
         const starElements: HTMLElement[] = [];
@@ -49,8 +50,8 @@ const StarsAnimation = () => {
 
 
         return () => {
-            if (starsContainerRef.current) {
-                starsContainerRef.current.innerHTML = '';
+            if (starsRefVariable) {
+                starsRefVariable.innerHTML = '';
             }
         };
     }, [])

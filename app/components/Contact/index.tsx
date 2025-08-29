@@ -17,7 +17,7 @@ const Contact = () => {
           collaborate ??
         </div>
         <div className=" ">
-          Let's Connect <br />
+          Let&apos;s Connect <br />
           Feel free to reach out for collaborations or just a friendly hello <br />
           👋 <br />
 

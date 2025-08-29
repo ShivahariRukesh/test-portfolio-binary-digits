@@ -1,6 +1,6 @@
 'use client'
 
-import { useContext, useState, createContext, ReactNode } from "react"
+import { useContext, useState, createContext, ReactNode, useEffect } from "react"
 import { ProjectContextInterface, ProjectInterface } from "../types/project"
 
 const ProjectContext = createContext<ProjectContextInterface | undefined>(undefined)
@@ -8,19 +8,23 @@ const ProjectContext = createContext<ProjectContextInterface | undefined>(undefi
 
 export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
-    const [projects, setProjects] = useState<ProjectInterface[]>([
-        {
-            title: "Web chat",
-            description: "Simple web chat application using socket"
-        },
-        {
-            title: "Web chat",
-            description: "Simple web chat application using socket"
-        }
-    ])
+    const [projects, setProjects] = useState<ProjectInterface[]>([])
     const [loading, setLoading] = useState(false)
 
 
+    const fetchAllProjects = async () => {
+
+        const response = await fetch('/api/projects')
+        const data = await response.json();
+        return data
+    }
+    useEffect(() => {
+        (async () => {
+            const data = await fetchAllProjects();
+            console.log(data)
+            setProjects(data.data)
+        })()
+    }, [])
 
     return (
         <ProjectContext.Provider value={{
