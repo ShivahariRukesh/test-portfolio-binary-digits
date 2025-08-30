@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# The images uploaded from the client wont be pushed
+
+/public/uploads/*
