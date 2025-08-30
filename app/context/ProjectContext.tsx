@@ -14,24 +14,52 @@ export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children })
 
     const fetchAllProjects = async () => {
 
-        const response = await fetch('/api/projects')
+        const response = await fetch('/api/project')
         const data = await response.json();
+        console.log(data)
         return data
     }
     useEffect(() => {
         (async () => {
             const data = await fetchAllProjects();
-            console.log(data)
-            setProjects(data.data)
+            setProjects([...data.data])
         })()
     }, [])
+
+
+    const addProject = async (formData: ProjectInterface) => {
+        const payload = new FormData()
+        payload.append('title', formData.title)
+        payload.append('description', formData.description)
+        payload.append('image', formData.image as File)
+        payload.append('category', formData.category)
+
+        const res = await fetch('/api/project', {
+            method: 'POST',
+            body: payload,
+        })
+        return res
+    }
+
+    const deleteProject = (id: number) => {
+        console.log("deleted", id)
+    }
+
+
+
+    const updateProject = (id: number) => {
+        console.log("updated", id)
+    }
 
     return (
         <ProjectContext.Provider value={{
             projects,
             setProjects,
             loading,
-            setLoading
+            setLoading,
+            addProject,
+            updateProject,
+            deleteProject
         }}>
             {children}
         </ProjectContext.Provider>

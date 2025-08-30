@@ -10,7 +10,6 @@ gsap.registerPlugin(ScrollTrigger)
 const Projects = () => {
   const sectionRef = useRef<HTMLDivElement>(null)
   const { projects, loading } = useProjects()
-  console.log("first", projects)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
