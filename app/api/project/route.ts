@@ -39,3 +39,16 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ success: false, data: [], error: 'Failed to insert the project' }, { status: 500 })
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

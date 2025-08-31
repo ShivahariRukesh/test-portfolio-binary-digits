@@ -17,7 +17,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onEdit }) => {
         if (window.confirm('Are you sure you want to delete this project?')) {
             setDeletingId(id)
             try {
-                await deleteProject(id)
+                deleteProject(id)
             } catch (error) {
                 console.error('Error deleting project:', error)
             } finally {
@@ -103,7 +103,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onEdit }) => {
                                         >
                                             {deletingId === project.id ? 'Deleting...' : 'Delete'}
                                         </button>
-                                        view project url
+
                                     </div>
                                 </td>
                             </tr>

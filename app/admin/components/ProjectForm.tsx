@@ -1,7 +1,8 @@
 'use client'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useProjects } from '../../context/ProjectContext'
 import { ProjectInterface } from '@/app/types/project'
+import Image from 'next/image'
 
 interface ProjectFormProps {
     project: ProjectInterface | null
@@ -10,6 +11,7 @@ interface ProjectFormProps {
 
 const ProjectForm: React.FC<ProjectFormProps> = ({ project, onClose }) => {
     const { addProject, updateProject } = useProjects()
+
     const [formData, setFormData] = useState<Omit<ProjectInterface, 'id'>>({
         title: '',
         description: '',
@@ -19,6 +21,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onClose }) => {
 
     const [loading, setLoading] = useState(false)
 
+    const fileUploadRef = useRef<HTMLInputElement | null>(null)
 
     useEffect(() => {
         if (project) {
@@ -112,17 +115,40 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onClose }) => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-2">
-                                Add Image
-                            </label>
-                            <input
-                                type="file"
-                                name="image"
-                                accept="image/*"
-                                onChange={(e) => handleChange(e)}
+                            {project?.image ?
 
-                                className="w-full bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
+
+                                (
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                                            Upload new image
+                                        </label>
+                                        <Image src={project.image as string} alt={project.title} width={150} height={100} onClick={() => { fileUploadRef.current?.click() }} className='cursor-pointer' />
+                                        <input
+                                            type="file"
+                                            name="image"
+                                            accept="image/*"
+                                            onChange={(e) => handleChange(e)}
+                                            ref={fileUploadRef}
+
+                                            className="hidden"
+                                        />
+                                    </div>)
+                                :
+                                (<>
+                                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                                        Add Image
+                                    </label>
+                                    <input
+                                        type="file"
+                                        name="image"
+                                        accept="image/*"
+                                        onChange={(e) => handleChange(e)}
+                                        className="w-full bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    />
+                                </>
+
+                                )}
                         </div>
 
                     </div>
