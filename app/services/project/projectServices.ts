@@ -1,29 +1,53 @@
 import { ProjectInterface } from "@/app/types/project"
 import { mkdir, writeFile } from "fs/promises";
 import path from "path";
+import fs from "fs";
 
 export const addProjectService = async (formData: ProjectInterface) => {
-
-    console.log("Service", formData)
-
+    let updatedFormData = { ...formData }
+    let foundFile = null
     const imageFile = formData.image as File;
-
-    const bytes = await imageFile.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    const fileName = `${Date.now()}-${imageFile.name}`;
     const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-    const filePath = path.join(uploadDir, fileName);
+
+    try {
+        const files = fs.readdirSync(uploadDir)
+
+        console.log("Files in folder")
+
+        for (let i = 0; i < files.length; i++) {
+
+            if (files[i].split('-').slice(1).join('-') === imageFile.name) {
+                foundFile = files[i]
+                break;
+            }
+
+        }
 
 
-    await mkdir(uploadDir, { recursive: true });
+        if (foundFile === null) {
+            const bytes = await imageFile.arrayBuffer();
+            const buffer = Buffer.from(bytes);
+
+            const fileName = `${Date.now()}-${imageFile.name}`;
+            const filePath = path.join(uploadDir, fileName);
 
 
-    await writeFile(filePath, buffer);
+            await mkdir(uploadDir, { recursive: true });
 
-    const imageFileUrl = `/uploads/${fileName}`
-    const updateFormData = { ...formData, image: imageFileUrl }
 
-    return updateFormData
+            await writeFile(filePath, buffer);
+
+            const imageFileUrl = `/uploads/${fileName}`
+            updatedFormData = { ...updatedFormData, image: imageFileUrl }
+        }
+        else {
+            updatedFormData = { ...updatedFormData, image: '/uploads/foundFile' }
+
+        }
+
+    } catch (err) {
+        console.log(err)
+    }
+    return updatedFormData
 
 }

@@ -41,14 +41,44 @@ export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children })
         return res
     }
 
-    const deleteProject = (id: number) => {
-        console.log("deleted", id)
+    const deleteProject = async (id: number) => {
+        try {
+
+            const res = await fetch(`/api/project/${id}`, {
+                method: 'DELETE'
+            })
+            const value = await res.json();
+            if (!value.success) {
+                throw new Error('Failed to delete project ')
+            }
+            fetchAllProjects()
+        } catch (err) {
+            console.log("Error while deleting project ", err)
+        }
     }
 
 
 
-    const updateProject = (id: number) => {
-        console.log("updated", id)
+    const updateProject = async (id: number, formData: ProjectInterface) => {
+        const payload = new FormData()
+
+        payload.append('title', formData.title)
+        payload.append('description', formData.description)
+        payload.append('image', formData.image as File)
+        payload.append('category', formData.category)
+
+        const res = await fetch(`/api/project/${id}`, {
+            method: 'PUT',
+            body: payload
+        })
+        const value = await res.json()
+
+        if (value.success) {
+            console.log("Project deletedSuccessfully")
+            fetchAllProjects()
+        } else {
+            console.log("Project cannot be deleted successfully")
+        }
     }
 
     return (

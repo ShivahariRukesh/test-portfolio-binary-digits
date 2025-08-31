@@ -12,7 +12,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
             <div className="relative h-48 md:h-64 overflow-hidden">
                 <Image
-                    src='/images/project-image.png'
+                    src={project.image as string}
                     alt={project.title}
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
