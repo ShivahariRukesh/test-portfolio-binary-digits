@@ -9,14 +9,14 @@ const Navbar = () => {
   return (
 
     <div className='flex  w-full justify-center p-3'>
-      <nav className='flex  w-[1086px] h-[66px]  rounded-full  bg-white text-black'>
+      <nav className='flex  w-[90%] h-[66px]  rounded-full  bg-white text-black font-quicksand font-bold overflow-hidden'>
 
 
 
         <div className='hidden md:flex flex-10/12 items-center justify-end space-x-10 mr-15'>
 
           <Link href="#home">Home</Link>
-          <Link href="#work">Projects</Link>
+          <Link href="#projects">Projects</Link>
           <Link href="#about">About</Link>
           <Link href="#contact">Contact</Link>
         </div>
@@ -58,12 +58,13 @@ const Navbar = () => {
 
 
         </div>
-        <div className='md:flex-2/12 flex items-center  justify-center border-2 border-white w-1/6 text-white rounded-r-full bg-[#222222] ml-auto'>
+        <Link href='/admin'
+          className='md:flex-2/12 flex items-center  justify-center border-2 border-white w-1/6 text-white rounded-r-full bg-[#222222] ml-auto cursor-pointer'>
 
-          <button className="">
-            Follow me
-          </button>
-        </div>
+
+          Admin Panel
+
+        </Link>
 
 
       </nav>

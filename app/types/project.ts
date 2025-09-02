@@ -16,7 +16,7 @@ export interface ProjectContextInterface {
     loading: boolean
     setLoading: React.Dispatch<React.SetStateAction<boolean>>
 
-    deleteProject: (id: number) => void
+    deleteProject: (id: number, image: string) => void
     updateProject: (id: number, formdata: ProjectInterface) => void
     addProject: (formdata: ProjectInterface) => void
 

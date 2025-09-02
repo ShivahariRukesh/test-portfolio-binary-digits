@@ -3,10 +3,13 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useProjects } from '../../context/ProjectContext'
 import { ProjectInterface } from '@/app/types/project'
 import Image from 'next/image'
+import gsap from 'gsap'
+import AdminButton from '@/app/components/utils/AdminButton'
 
 interface ProjectFormProps {
     project: ProjectInterface | null
     onClose: () => void
+
 }
 
 const ProjectForm: React.FC<ProjectFormProps> = ({ project, onClose }) => {
@@ -22,6 +25,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onClose }) => {
     const [loading, setLoading] = useState(false)
 
     const fileUploadRef = useRef<HTMLInputElement | null>(null)
+    const formRef = useRef<HTMLInputElement | null>(null)
 
     useEffect(() => {
         if (project) {
@@ -37,7 +41,21 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onClose }) => {
 
 
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    useEffect(() => {
+
+        gsap.to(formRef.current, {
+
+            y: -50,
+            opacity: 1,
+            duration: 1,
+            ease: 'bounce'
+        })
+
+    }, [])
+
+
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value, files, type } = e.target as HTMLInputElement;
         if (type === 'file' && files && files.length > 0) {
             setFormData(prev => ({
@@ -53,6 +71,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onClose }) => {
         }
     }
 
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setLoading(true)
@@ -63,132 +82,157 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ project, onClose }) => {
             } else {
                 await addProject(formData)
             }
-            onClose()
         } catch (error) {
             console.error('Error saving project:', error)
         } finally {
+            handleFormOnClose()
             setLoading(false)
+        }
+    }
+
+    const handleFormOnClose = () => {
+
+        if (formRef.current) {
+            gsap.to(formRef.current, {
+                y: -100,
+                opacity: 0,
+                duration: 0.4,
+                ease: "power2.in",
+                onComplete: () => {
+                    onClose();
+                },
+            });
         }
     }
 
 
 
-
-
     return (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-dark-secondary rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                <div className="p-6 border-b border-gray-700">
+        <div className="main-screen  min-h-screen fixed inset-0 z-50 flex items-center justify-center p-4">
+
+            <div ref={formRef} className=" opacity-0 bg-gray-800 p-8 rounded-lg shadow-lg  max-w-lg w-full ">
+
+
+
+                <div className="p-6">
                     <h2 className="text-2xl font-bold text-white">
                         {project ? 'Edit Project' : 'Add New Project'}
                     </h2>
                 </div>
 
-                <form onSubmit={handleSubmit} className="p-6 space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Title Field */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                        <label htmlFor="title" className="block text-sm font-medium text-gray-400 mb-1">
                             Title
                         </label>
                         <input
                             type="text"
-                            name='title'
+                            id="title"
+                            name="title"
                             value={formData.title}
-                            onChange={(e) => handleChange(e)}
-                            className="w-full bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            onChange={handleChange}
+                            className="w-full p-3 rounded-lg bg-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             required
                         />
                     </div>
 
+                    {/* Description Field */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                        <label htmlFor="description" className="block text-sm font-medium text-gray-300 mb-2">
                             Description
                         </label>
                         <textarea
+                            id="description"
+                            name="description"
                             value={formData.description}
-                            name='description'
-                            onChange={(e) => handleChange(e)}
+                            onChange={handleChange}
                             rows={4}
-                            className="w-full bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                            className="w-full p-3 rounded-lg bg-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            placeholder="What's it about"
                             required
                         />
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Image Upload */}
+                    <div className="grid grid-cols-1">
                         <div>
-                            {project?.image ?
+                            <label className="block text-sm font-medium text-gray-300 mb-2">
+                                {project?.image ? 'Upload New Image' : 'Add Image'}
+                            </label>
 
-
-                                (
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-300 mb-2">
-                                            Upload new image
-                                        </label>
-                                        <Image src={project.image as string} alt={project.title} width={150} height={100} onClick={() => { fileUploadRef.current?.click() }} className='cursor-pointer' />
-                                        <input
-                                            type="file"
-                                            name="image"
-                                            accept="image/*"
-                                            onChange={(e) => handleChange(e)}
-                                            ref={fileUploadRef}
-
-                                            className="hidden"
-                                        />
-                                    </div>)
-                                :
-                                (<>
-                                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                                        Add Image
-                                    </label>
+                            {project?.image ? (
+                                <>
+                                    <Image
+                                        src={project.image as string}
+                                        alt={project.title}
+                                        width={150}
+                                        height={100}
+                                        onClick={() => fileUploadRef.current?.click()}
+                                        className="cursor-pointer"
+                                    />
                                     <input
                                         type="file"
                                         name="image"
                                         accept="image/*"
-                                        onChange={(e) => handleChange(e)}
-                                        className="w-full bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        onChange={handleChange}
+                                        ref={fileUploadRef}
+                                        className="hidden"
                                     />
                                 </>
-
-                                )}
+                            ) : (
+                                <input
+                                    type="file"
+                                    name="image"
+                                    accept="image/*"
+                                    onChange={handleChange}
+                                    className="w-full bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            )}
                         </div>
-
                     </div>
 
+                    {/* Category Field */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                        <label htmlFor="category" className="block text-sm font-medium text-gray-400 mb-1">
                             Category
                         </label>
-                        <input
-                            type="text"
-                            name='category'
+                        <select
+                            id="category"
+                            name="category"
                             value={formData.category}
-                            onChange={(e) => handleChange(e)}
+                            onChange={handleChange}
                             className="w-full bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Web Design, Mobile App, etc."
                             required
-                        />
+                        >
+                            <option value="" disabled>Select a category</option>
+                            <option value="Web Design">Web Design</option>
+                            <option value="Mobile Application">Mobile Application</option>
+                            <option value="Desktop Application">Desktop Application</option>
+                        </select>
                     </div>
 
-
-
                     <div className="flex gap-4 pt-4">
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white py-2 rounded-lg font-medium transition-colors"
-                        >
-                            {loading ? 'Saving...' : (project ? 'Update Project' : 'Create Project')}
-                        </button>
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="flex-1 bg-gray-600 hover:bg-gray-700 text-white py-2 rounded-lg font-medium transition-colors"
-                        >
-                            Cancel
-                        </button>
+
+                        <AdminButton
+                            text={loading ? 'Saving...' : project ? 'Update Project' : 'Create Project'}
+                            color='blue'
+                            buttonType='submit'
+                            buttonDisable={loading}
+                        />
+
+                        <AdminButton
+                            text="Cancel"
+                            color='red'
+                            buttonAction={handleFormOnClose}
+                            buttonDisable={loading}
+                        />
                     </div>
                 </form>
             </div>
         </div>
+
+
     )
 }
 

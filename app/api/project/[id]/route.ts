@@ -1,51 +1,53 @@
-import pool from "@/app/lib/db";
-import { addProjectService } from "@/app/services/project/projectServices";
+import pool from "@/app/lib/database/db";
+import { deleteImageFile, uploadImageFile } from "@/app/lib/api/projects";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
-    console.log(params.id)
-    try {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
 
-        const res = await pool.query('DELETE FROM project WHERE id= $1 RETURNING *', [params.id])
+    const { imageFile } = await request.json();
+
+    try {
+        const res = await pool.query('DELETE FROM project WHERE id= $1 RETURNING *', [id]);
+        deleteImageFile(imageFile)
+
 
         if (res.rows.length === 0) {
-            return NextResponse.json({ success: false, data: [], error: 'Project not found' }, { status: 404 })
-
+            return NextResponse.json({ success: false, data: [], error: 'Project not found' }, { status: 404 });
         }
-        return NextResponse.json({ success: true, data: res.rows, error: '' }, { status: 200 })
+
+        return NextResponse.json({ success: true, data: res.rows, error: '' }, { status: 200 });
     } catch (err) {
-        return NextResponse.json({ success: false, data: [], error: 'Failed to delete the record, Error is: ' + err })
+        return NextResponse.json({ success: false, data: [], error: 'Failed to delete the record, Error is: ' + err });
     }
 }
 
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
 
-
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
-    // console.log(params.id)
-    const formData = await request.formData()
+    const formData = await request.formData();
     const title = formData.get('title') as string;
     const description = formData.get('description') as string;
     const category = formData.get('category') as string;
     const image = formData.get('image') as File;
 
-    const serviceData = await addProjectService({ title, description, category, image })
+    const serviceData = await uploadImageFile({ title, description, category, image });
 
     try {
         const res = await pool.query(
             `UPDATE project
-             SET title = $1, description = $2, image = $3, category = $4
-             WHERE id = $5 RETURNING *`,
-            [serviceData.title, serviceData.description, serviceData.image, serviceData.category, params.id]
-        )
-        console.log(res)
+       SET title = $1, description = $2, image = $3, category = $4
+       WHERE id = $5 RETURNING *`,
+            [serviceData.title, serviceData.description, serviceData.image, serviceData.category, id]
+        );
+
 
         if (res.rows.length === 0) {
-            return NextResponse.json({ success: false, data: [], error: 'Project not found' }, { status: 404 })
-
+            return NextResponse.json({ success: false, data: [], error: 'Project not found' }, { status: 404 });
         }
-        return NextResponse.json({ success: true, data: res.rows, error: '' }, { status: 200 })
 
+        return NextResponse.json({ success: true, data: res.rows, error: '' }, { status: 200 });
     } catch (err) {
-        return NextResponse.json({ success: false, data: [], error: 'Failed to update the record' + err })
+        return NextResponse.json({ success: false, data: [], error: 'Failed to update the record' + err });
     }
 }

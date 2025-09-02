@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react'
-
+import AdminButton from '@/app/components/utils/AdminButton'
 interface AdminAuthProps {
     onAuthSuccess: () => void
 }
@@ -40,7 +40,7 @@ const AdminAuth: React.FC<AdminAuthProps> = ({ onAuthSuccess }) => {
     return (
         <div className="min-h-screen bg-dark flex items-center justify-center">
             <div className="max-w-md w-full mx-4">
-                <div className="bg-dark-secondary rounded-lg shadow-xl p-8">
+                <div className="bg-dark-secondary rounded-lg border-2 border-black shadow-xl p-8">
                     <div className="text-center mb-8">
                         <h1 className="text-3xl font-bold text-white mb-2">Admin Login</h1>
                         <p className="text-gray-400">Enter your credentials to access the admin panel</p>
@@ -83,13 +83,17 @@ const AdminAuth: React.FC<AdminAuthProps> = ({ onAuthSuccess }) => {
                             </div>
                         )}
 
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white py-3 rounded-lg font-medium transition-colors"
-                        >
-                            {loading ? 'Authenticating...' : 'Login'}
-                        </button>
+
+
+                        <AdminButton text={loading ? 'Authenticating...' : 'Login'}
+                            color="blue"
+                            buttonType="submit"
+                            buttonDisable={loading}
+                        />
+
+
+
+
                     </form>
 
                     {/* Demo credentials info */}

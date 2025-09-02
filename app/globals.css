@@ -1,5 +1,44 @@
 @import "tailwindcss";
 
+@layer utilities {
+  @keyframes typing {
+    from {
+      width: 0;
+    }
+    to {
+      width: 37ch;
+    }
+  }
+  
+  @keyframes blink {
+    50% {
+      border-color: transparent;
+    }
+  }
+  
+  .typing-animation {
+    animation: typing 9s steps(35) infinite alternate, blink 0.5s step-end infinite alternate;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 2px solid white;
+    width: 38ch;
+  }
+}
+
+:root {
+  --font-abee-zee: "ABeeZee", sans-serif;
+  --font-quicksand: "Quicksand", sans-serif;
+}
+
+.font-abeezee {
+  font-family: var(--font-abee-zee);
+}
+
+.font-quicksand {
+  font-family: var(--font-quicksand);
+}
+
+
 *{
   box-sizing: border-box;
 
@@ -8,6 +47,7 @@
 html,body {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 }
 
 html{
