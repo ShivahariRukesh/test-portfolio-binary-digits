@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import ProjectCard from './ProjectCard';
 import { ProjectInterface } from '@/app/types/project';
+import Link from 'next/link';
 
 interface ScrollableSectionProps {
     projects: ProjectInterface[]
@@ -49,14 +50,16 @@ const ScrollableSection = ({ projects }: ScrollableSectionProps) => {
                         </div>
                     ))}
 
-                    <div className="bg-gray-800 rounded-lg p-8 flex flex-col justify-center items-center text-center min-w-[300px] h-[400px] border-2 border-dashed border-gray-600 flex-shrink-0">
-                        <h3 className="text-xl font-semibold mb-4 text-white">Couldn&apos;t find what you need?
+                    <div className="bg-[#282727] rounded-lg p-8 flex flex-col gap-y-7 justify-center items-center text-center min-w-[300px] h-[400px] border-1 border-[#494949]  flex-shrink-0">
+                        <h3 className="text-xl font-semibold text-white">Couldn&apos;t find what you need?
 
                         </h3>
                         <p>Suggest a tutorial, course or video. I read seek  feedback/suggestion!</p>
-                        <button className="bg-gradient-to-br from-gray-700 via-pink-300 to-orange-300 text-white px-6 py-3 rounded transition-all hover:scale-105">
-                            Request Now →
-                        </button>
+                        <Link href='/admin'>
+                            <button className="rounded-full bg-gradient-to-r from-[#222222] via-[#7e6e6d] to-[#956b60]  text-white px-6 py-3  transition-all hover:scale-105">
+                                Request Now →
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </div>

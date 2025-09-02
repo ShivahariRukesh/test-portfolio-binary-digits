@@ -17,6 +17,7 @@ const Hero = () => {
     })
 
     t1.to("#bg-moon-right", { opacity: 0, ease: "none" })
+      .to(".hero-header", { color: "black" }, "<")
       .to("#bg-moon-left", { opacity: 1, ease: "none" })
 
   }, []);
@@ -33,7 +34,7 @@ const Hero = () => {
       <img
         src="/images/hero-moon.svg"
         alt="Moon"
-        className=" absolute opacity-0 transform scale-x-[-1] top-0 left-10 w-[70%] h-[90%] object-cover z-0"
+        className=" absolute opacity-0 transform scale-x-[-1] rotate-90 top-0 left-10 w-[70%] h-[90%] object-cover -z-10"
         id="bg-moon-left"
       />
       <section id="home" className="min-h-screen flex  items-center ml-[530px] relative   overflow-hidden">
@@ -41,7 +42,7 @@ const Hero = () => {
           <div className="max-w-4xl ml-0">
 
             <div>
-              <h1 className="text-4xl sm:text-6xl lg:text-6xl font-medium font-abeezee leading-tight">
+              <h1 className="hero-header text-4xl sm:text-6xl lg:text-6xl font-medium font-abeezee leading-tight">
                 <span className="block">FROM DARKNESS TO THE</span>
                 <span className="block">DAWN, IDEAS TAKE FLIGHT.</span>
               </h1>
@@ -55,7 +56,7 @@ const Hero = () => {
 
 
               <button
-                className="border border-gray-500 bg-[#222222] text-white px-8 py-3 rounded-r-full hover:bg-white hover:text-dark transition-all duration-300 transform hover:scale-105"
+                className="border border-gray-500 bg-[#222222] text-white px-8 py-3 rounded-r-full hover:bg-white hover:text-black transition-all duration-300 transform hover:scale-105"
               >
                 Download resume
               </button>
