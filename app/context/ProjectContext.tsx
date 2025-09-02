@@ -16,15 +16,20 @@ export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children })
 
         const response = await fetch('/api/project')
         const data = await response.json();
-        console.log(data)
-        return data
+        setProjects([...data.data])
     }
+
     useEffect(() => {
+
         (async () => {
-            const data = await fetchAllProjects();
-            setProjects([...data.data])
+            setLoading(true)
+
+            await fetchAllProjects();
+            setLoading(false)
+
         })()
     }, [])
+
 
 
     const addProject = async (formData: ProjectInterface) => {
@@ -38,22 +43,34 @@ export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children })
             method: 'POST',
             body: payload,
         })
+        fetchAllProjects()
         return res
     }
 
-    const deleteProject = async (id: number) => {
+    const deleteProject = async (id: number, imagePath: string) => {
+
+        setLoading(true)
+        const imageFile = imagePath.split('/').pop();
+
         try {
 
             const res = await fetch(`/api/project/${id}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ imageFile }),
+
             })
             const value = await res.json();
             if (!value.success) {
                 throw new Error('Failed to delete project ')
             }
-            fetchAllProjects()
         } catch (err) {
             console.log("Error while deleting project ", err)
+        } finally {
+            fetchAllProjects()
+
+            setLoading(false)
+
         }
     }
 

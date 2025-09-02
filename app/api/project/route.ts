@@ -1,5 +1,5 @@
-import pool from "@/app/lib/db";
-import { addProjectService } from "@/app/services/project/projectServices";
+import pool from "@/app/lib/database/db";
+import { uploadImageFile } from "@/app/lib/api/projects";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     const category = formData.get('category') as string;
     const image = formData.get('image') as File;
 
-    const serviceData = await addProjectService({ title, description, category, image })
+    const serviceData = await uploadImageFile({ title, description, category, image })
 
 
 

@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useProjects } from '@/app/context/ProjectContext'
-import ProjectCard from './ProjectCard'
+import ScrollableSection from './ScrollableSection'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -48,38 +48,61 @@ const Projects = () => {
           }
         }
       )
+
+
     }, sectionRef)
 
-    return () => ctx.revert()
-  }, [projects])
 
+
+    return () => ctx.revert()
+  }, [projects,])
+
+  useEffect(() => {
+    gsap.to('.arrow-about',
+      {
+        x: 50,
+        duration: 1,
+        repeat: -1,
+        yoyo: true
+      })
+
+    gsap.to('.arrow-text', {
+      scale: 1.25,
+      duration: 1.25,
+      repeat: -1,
+      ease: "back.out",
+      yoyo: true
+    })
+
+  }, [])
 
 
   return (
-    <section id="work" ref={sectionRef} className="py-20 bg-dark">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="projects" ref={sectionRef} className="py-20 bg-dark font-quicksand">
+      <div className=" px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16">
-          <div className="flex items-center mb-4 md:mb-0">
-            <div className="w-16 h-16 bg-white rounded-lg mr-4 flex items-center justify-center">
-              <span className="text-dark font-bold text-xl">TS</span>
-            </div>
-            <div>
-              <h2 className="section-title text-sm uppercase tracking-wider text-gray-400 mb-2">
+        <div className="flex flex-col max-w-7xl mx-auto md:flex-row justify-between items-start md:items-center mb-16">
+
+          <div className='relative'>
+            <div className="relative z-10 text-lg font-bold text-white mix-blend-difference">
+              <p className='relative top-2'>
                 THE SIMPLE
-              </h2>
-              <h3 className="section-title text-xl font-semibold">Easy Work</h3>
+              </p>
+              <p className='relative left-13 top-2'>
+                EASY WORK
+              </p>
             </div>
+            <div className=" absolute top-0 left-12 w-[130px] h-[50px] bg-white  rounded-tr-full"></div>
           </div>
 
-          <a
-            href="#contact"
-            className="section-title text-white hover:text-gray-300 transition-colors flex items-center group"
+          <div
+            className="section-title arrow-text text-white hover:text-gray-300 transition-colors text-3xl flex items-center group"
+
           >
             See the Portfolio
-            <span className="ml-2 transform group-hover:translate-x-1 transition-transform">→</span>
-          </a>
+            <div className="arrow-about ml-1 transform group-hover:translate-x-1 transition-transform">→</div>
+          </div>
         </div>
 
         {/* Projects Grid */}
@@ -88,20 +111,7 @@ const Projects = () => {
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
-              <ProjectCard key={project.id || index} project={project} />
-            ))}
-
-
-            <div className="project-card bg-dark-secondary rounded-lg p-8 flex flex-col justify-center items-center text-center min-h-[400px]">
-              <h3 className="text-xl font-semibold mb-4">Couldn&apos;t find what you need?</h3>
-
-              <button className="bg-gradient-to-br from-[#222222] via-[#DFA7A5] to-[#AD7C6F] text-white px-6 py-3 rounded transition-colors">
-                Request Now →
-              </button>
-            </div>
-          </div>
+          <ScrollableSection projects={projects} />
         )}
       </div>
     </section>

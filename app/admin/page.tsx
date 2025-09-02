@@ -1,4 +1,3 @@
-// app/admin/page.tsx
 'use client'
 import React, { useState, useEffect } from 'react'
 import { useProjects } from '../context/ProjectContext'
@@ -6,18 +5,22 @@ import AdminAuth from './components/AdminAuth'
 import ProjectForm from './components/ProjectForm'
 import ProjectList from './components/ProjectList'
 import { ProjectInterface } from '../types/project'
+import AdminButton from '../components/utils/AdminButton'
+import Loading from './loading'
 
 const AdminPanel: React.FC = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
     const [showForm, setShowForm] = useState(false)
     const [editingProject, setEditingProject] = useState<ProjectInterface | null>(null)
     const { projects, loading } = useProjects()
 
-    // Check authentication status on component mount
+
     useEffect(() => {
         const authStatus = localStorage.getItem('adminAuth')
         if (authStatus === 'true') {
             setIsAuthenticated(true)
+        } else {
+            setIsAuthenticated(false)
         }
     }, [])
 
@@ -37,8 +40,13 @@ const AdminPanel: React.FC = () => {
     }
 
     const handleCloseForm = () => {
+
         setShowForm(false)
         setEditingProject(null)
+    }
+
+    if (isAuthenticated === null) {
+        return <Loading />
     }
 
     if (!isAuthenticated) {
@@ -57,19 +65,10 @@ const AdminPanel: React.FC = () => {
                             <h1 className="text-2xl font-bold">Portfolio Admin</h1>
                             <p className="text-gray-400">Manage your portfolio projects</p>
                         </div>
-                        <div className="flex items-center space-x-4">
-                            <button
-                                onClick={() => setShowForm(true)}
-                                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
-                            >
-                                Add Project
-                            </button>
-                            <button
-                                onClick={handleLogout}
-                                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
-                            >
-                                Logout
-                            </button>
+                        <div className="flex items-center space-x-4 w-1/4">
+
+                            <AdminButton text="Add Project" color="blue" buttonAction={() => setShowForm(true)} />
+                            <AdminButton text="Logout" color="red" buttonAction={handleLogout} />
                         </div>
                     </div>
                 </div>
@@ -82,10 +81,7 @@ const AdminPanel: React.FC = () => {
 
 
                 {loading ? (
-                    <div className="text-center py-12">
-                        <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-                        <p className="mt-2 text-gray-400">Loading projects...</p>
-                    </div>
+                    <Loading />
                 ) : (
                     <ProjectList projects={projects} onEdit={handleEdit} />
                 )}

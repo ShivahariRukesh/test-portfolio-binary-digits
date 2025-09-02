@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import { useProjects } from '../../context/ProjectContext'
 import { ProjectInterface } from '@/app/types/project'
+import AdminButton from '@/app/components/utils/AdminButton'
 
 interface ProjectListProps {
     projects: ProjectInterface[]
@@ -12,12 +13,13 @@ interface ProjectListProps {
 const ProjectList: React.FC<ProjectListProps> = ({ projects, onEdit }) => {
     const { deleteProject } = useProjects()
     const [deletingId, setDeletingId] = useState<number | null>(null)
-    console.log(projects)
-    const handleDelete = async (id: number) => {
+
+    const handleDelete = async (id: number, image: string) => {
+
         if (window.confirm('Are you sure you want to delete this project?')) {
             setDeletingId(id)
             try {
-                deleteProject(id)
+                deleteProject(id, image)
             } catch (error) {
                 console.error('Error deleting project:', error)
             } finally {
@@ -90,19 +92,19 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, onEdit }) => {
 
                                 <td className="px-6 py-4 text-sm">
                                     <div className="flex items-center gap-2">
-                                        <button
-                                            onClick={() => onEdit(project)}
-                                            className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs transition-colors"
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            onClick={() => project.id && handleDelete(project.id)}
-                                            disabled={deletingId === project.id}
-                                            className="bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white px-3 py-1 rounded text-xs transition-colors"
-                                        >
-                                            {deletingId === project.id ? 'Deleting...' : 'Delete'}
-                                        </button>
+
+                                        <AdminButton
+                                            text='Edit'
+                                            color='blue'
+                                            buttonAction={() => onEdit(project)}
+                                        />
+
+                                        <AdminButton
+                                            text={deletingId === project.id ? 'Deleting...' : 'Delete'}
+                                            color='red'
+                                            buttonAction={() => project.id && handleDelete(project.id, project.image as string)}
+                                            buttonDisable={deletingId === project.id}
+                                        />
 
                                     </div>
                                 </td>
