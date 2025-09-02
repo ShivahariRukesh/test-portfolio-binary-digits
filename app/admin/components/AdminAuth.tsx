@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import AdminButton from '@/app/components/utils/AdminButton'
+import Link from 'next/link'
 interface AdminAuthProps {
     onAuthSuccess: () => void
 }
@@ -85,11 +86,19 @@ const AdminAuth: React.FC<AdminAuthProps> = ({ onAuthSuccess }) => {
 
 
 
-                        <AdminButton text={loading ? 'Authenticating...' : 'Login'}
+                        <AdminButton
+                            text={loading ? 'Authenticating...' : 'Login'}
                             color="blue"
                             buttonType="submit"
                             buttonDisable={loading}
                         />
+                        <Link href="/">
+                            <AdminButton
+                                text="Go Back To The Portfolio"
+                                color="purple"
+
+                            />
+                        </Link>
 
 
 
