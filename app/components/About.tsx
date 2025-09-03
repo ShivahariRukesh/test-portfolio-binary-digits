@@ -67,31 +67,25 @@ const About = () => {
 
 
         </div>
+        <div className="flex flex-col px-6 sm:px-10 md:px-20 lg:px-40 gap-y-8">
 
-        <div className='flex flex-col ml-50 gap-y-8'>
-
-          <div className='text-5xl'>
+          <div className="text-3xl sm:text-4xl md:text-5xl font-bold">
             NAMASTE 🙏<br />
             I&apos;M RUKESH SHIVAHARI
           </div>
 
-          <div className='flex flex-col  gap-y-3 font-quicksand '>
-
+          <div className="flex flex-col gap-y-3 font-quicksand text-base sm:text-lg md:text-xl">
 
             <div className="typing-animation">
               I hope that you like my portfolio, Thank you !!
             </div>
 
-
-            <div className='flex gap-x-4  text-3xl mt-10'>
-              <span> Let&apos;s know more </span>
-              <Image src='/images/arrow.svg' width={25} height={25} alt="Arrow icon in about us" />
+            <div className="flex items-center gap-x-4 text-lg sm:text-xl md:text-2xl mt-6 sm:mt-10">
+              <span>Let&apos;s know more</span>
+              <Image src="/images/arrow.svg" width={25} height={25} alt="Arrow icon in about us" />
             </div>
           </div>
 
-          <div>
-
-          </div>
         </div>
       </div>
     </section>
