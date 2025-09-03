@@ -1,17 +1,17 @@
-import { NextRequest, NextResponse } from 'next/server'
-
+import { NextRequest } from 'next/server'
+import { SuccessResponse, ErrorResponse } from '@/app/lib/api/apiResponse'
 export async function POST(request: NextRequest) {
     try {
         const { username, password } = await request.json()
 
 
-        if (username === "admin" && password === "admin") {
-            return NextResponse.json({ success: true, message: 'Authentication successful' })
+        if (username === process.env.NEXT_ADMIN_USERNAME && password === process.env.NEXT_ADMIN_USERNAME) {
+            return SuccessResponse(username, 'Authentication successful')
         } else {
-            return NextResponse.json({ success: false, message: 'Invalid credentials' }, { status: 401 })
+            return ErrorResponse('Invalid credentials', 401)
         }
     } catch (error) {
-        return NextResponse.json({ success: false, message: 'Authentication failed' + error }, { status: 500 })
+        return ErrorResponse('Authentication failed')
     }
 }
 

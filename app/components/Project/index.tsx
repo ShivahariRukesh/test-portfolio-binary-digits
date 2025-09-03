@@ -81,7 +81,7 @@ const Projects = () => {
     <section id="projects" ref={sectionRef} className="py-20 bg-dark font-quicksand">
       <div className=" px-4 sm:px-6 lg:px-8">
 
-        {/* Section Header */}
+
         <div className="flex flex-col max-w-7xl mx-auto md:flex-row justify-between items-start md:items-center mb-16">
 
           <div className='relative'>
@@ -97,7 +97,7 @@ const Projects = () => {
           </div>
 
           <div
-            className="section-title arrow-text text-white hover:text-gray-300 transition-colors text-3xl flex items-center group"
+            className="hidden section-title arrow-text text-white hover:text-gray-300 transition-colors text-3xl md:flex items-center group"
 
           >
             See the Portfolio
@@ -105,7 +105,7 @@ const Projects = () => {
           </div>
         </div>
 
-        {/* Projects Grid */}
+
         {loading ? (
           <div className="text-center py-20">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>

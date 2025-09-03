@@ -1,10 +1,45 @@
+
 'use client'
 import Link from 'next/link'
-import React, { useState } from 'react'
-
+import React, { useEffect, useRef, useState } from 'react'
+import gsap from 'gsap'
 const Navbar = () => {
 
-  const [isNavBarOpen, setIsNavBarOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    if (isOpen) {
+
+      gsap.fromTo(menuRef.current,
+        {
+          opacity: 0,
+          y: -20,
+          scale: 0.95
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.3,
+          ease: "power2.out"
+        }
+      );
+    }
+  }, [isOpen]);
+
+  const handleClose = () => {
+
+    gsap.to(menuRef.current, {
+      opacity: 0,
+      y: -20,
+      scale: 0.95,
+      duration: 0.2,
+      ease: "power2.in",
+      onComplete: () => setIsOpen(false)
+    });
+  };
 
   return (
 
@@ -24,52 +59,40 @@ const Navbar = () => {
 
 
 
-        {/* Mobile View */}
-
-        <div className='md:hidden relative flex  w-full '>
-
-          {isNavBarOpen ?
-            (
-              <div className=' absolute w-3/4 h-[50vh] -left-4 -top-4 bg-white/30 backdrop-blur-md p-6 rounded-lg text-4xl text-black'>
-
-                <div className='flex flex-col space-y-5'
-                  onClick={() => { setIsNavBarOpen((prev) => !prev) }}
-
-                >
-                  <Link href="#home">Home</Link>
-                  <Link href="#work">Projects</Link>
-                  <Link href="#about">About</Link>
-                  <Link href="#contact">Contact</Link>
-                </div>
-              </div>
-
-            )
-            :
-            (<div className='flex flex-col justify-center gap-y-3 rounded-full w-20 p-5'
-              onClick={() => { setIsNavBarOpen((prev) => !prev) }}
-            >
-              <hr className='w-full border-2 border-black' />
-              <hr className='w-full border-2 border-black' />
-              <hr className='w-full border-2 border-black' />
-
-            </div>)
-          }
-
-
-
-        </div>
         <Link href='/admin'
-          className='md:flex-2/12 flex items-center  justify-center border-2 border-white w-1/6 text-white rounded-r-full bg-[#222222] ml-auto cursor-pointer'>
-
-
+          className='hidden  md:flex  items-center  justify-center border-2 border-white w-1/6 text-white rounded-r-full bg-[#222222] ml-auto cursor-pointer'
+        >
           Admin Panel
 
         </Link>
 
-
+        <button
+          className='md:hidden flex items-center text-4xl ml-7'
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? '✕' : '☰'}
+        </button>
       </nav>
+      {isOpen && (
+        <div
+          ref={menuRef}
+          className='absolute md:hidden top-20 w-[80%] bg-white text-black rounded-2xl shadow-lg p-5 flex flex-col items-center space-y-5 font-quicksand font-bold z-50'
+        >
+          <Link href="#home" onClick={handleClose} className='border-b-2 border-black'>Home</Link>
+          <Link href="#projects" onClick={handleClose} className='border-b-2 border-black'>Projects</Link>
+          <Link href="#about" onClick={handleClose} className='border-b-2 border-black'>About</Link>
+          <Link href="#contact" onClick={handleClose} className='border-b-2 border-black'>Contact</Link>
+          <Link
+            href='/admin'
+            onClick={handleClose}
+            className='flex items-center justify-center border-2 border-white w-full py-2 text-white rounded-full bg-[#222222] cursor-pointer'
+          >
+            Admin Panel
+          </Link>
+        </div>
+      )}
 
-    </div>
+    </div >
   )
 }
 
