@@ -55,7 +55,7 @@ const AdminPanel: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-dark text-white">
-            {/* Header */}
+
 
 
             <header className="bg-dark-secondary shadow-lg">
@@ -74,10 +74,10 @@ const AdminPanel: React.FC = () => {
                 </div>
             </header>
 
-            {/* Main Content */}
+
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-                {/* Projects List */}
+
 
 
                 {loading ? (
@@ -87,7 +87,7 @@ const AdminPanel: React.FC = () => {
                 )}
             </main>
 
-            {/* Project Form Modal */}
+
             {showForm && (
                 <ProjectForm
                     project={editingProject}

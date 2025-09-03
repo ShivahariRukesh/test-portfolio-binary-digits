@@ -105,7 +105,7 @@ const AdminAuth: React.FC<AdminAuthProps> = ({ onAuthSuccess }) => {
 
                     </form>
 
-                    {/* Demo credentials info */}
+
                     <div className="mt-6 p-4 bg-yellow-900/30 border border-yellow-600 rounded-lg">
                         <p className="text-yellow-300 text-sm font-medium mb-1">Demo Credentials:</p>
                         <p className="text-yellow-200 text-xs">Username: admin</p>

@@ -24,20 +24,25 @@ const Hero = () => {
 
   return (
     <div className="h-screen relative ">
-      <img
-        src="/images/hero-moon.svg"
-        alt="Moon"
-        className=" absolute top-0 right-30 w-[70%] h-[90%] object-cover z-0 "
-        id="bg-moon-right"
-      />
+      <div className="hidden md:block">
 
-      <img
-        src="/images/hero-moon.svg"
-        alt="Moon"
-        className=" absolute opacity-0 transform scale-x-[-1] rotate-90 top-0 left-10 w-[70%] h-[90%] object-cover -z-10"
-        id="bg-moon-left"
-      />
-      <section id="home" className="min-h-screen flex  items-center ml-[530px] relative   overflow-hidden">
+        <img
+          src="/images/hero-moon.svg"
+          alt="Moon"
+          className=" absolute top-0 right-30 w-[70%] h-[90%] object-cover z-0 "
+          id="bg-moon-right"
+        />
+
+        <img
+          src="/images/hero-moon.svg"
+          alt="Moon"
+          className=" absolute opacity-0 transform scale-x-[-1] rotate-90 top-0 left-10 w-[70%] h-[90%] object-cover -z-10"
+          id="bg-moon-left"
+        />
+      </div>
+      <section id="home"
+        className="min-h-screen flex items-center justify-center md:justify-start lg:ml-[530] relative"
+      >
         <div className="max-w-7xl  px-4 sm:px-6 lg:px-8 text-center md:text-left ">
           <div className="max-w-4xl ml-0">
 
@@ -63,7 +68,18 @@ const Hero = () => {
             </div>
           </div>
         </div>
+
+        <div className="hidden md:block absolute bottom-8 left-1/3 transform -translate-x-1/2 animate-bounce">
+          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-white/50 rounded-full mt-2 animate-pulse"></div>
+          </div>
+        </div>
+
       </section>
+
+      <div className="md:hidden absolute top-20 right-4 w-20 h-20 bg-gradient-to-br from-white to-transparent rounded-full blur-xl"></div>
+      <div className="md:hidden absolute bottom-32 left-8 w-16 h-16 bg-gradient-to-br from-white to-transparent rounded-full blur-lg"></div>
+      <div className="md:hidden absolute top-1/3 left-4 w-12 h-12 bg-gradient-to-br from-white to-transparent rounded-full blur-md"></div>
     </div>
 
   )
