@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
     success: boolean;
     message: string;
     data: T;
@@ -21,7 +21,7 @@ export const SuccessResponse = <T>(
 export const ErrorResponse = (
     message: string,
     status: number = 500,
-    data: any = []
+    data: unknown = []
 ): NextResponse<ApiResponse> => {
     return NextResponse.json(
         { success: false, data, message },
