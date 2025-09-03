@@ -123,18 +123,8 @@ Uses React Context API for:
 - **Mobile First**: Designed for mobile devices first
 - **Breakpoints**: Optimized for all screen sizes
 - **Touch Friendly**: Mobile-optimized interactions
-- **Performance**: Optimized images and lazy loading
+- **Performance**: Optimized images 
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
 ```
 
 This completes your Next.js portfolio with:
